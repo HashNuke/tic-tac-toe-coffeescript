@@ -25,7 +25,7 @@ class @TicTacToe.Board
 
 
   build: ()->
-    @gameOver = true
+    @gameOver = false
     @$parent.innerHTML = ""
     for i in [1..3]
       $row = document.createElement("div")
