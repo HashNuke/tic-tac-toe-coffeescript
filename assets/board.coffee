@@ -49,14 +49,10 @@ class @TicTacToe.Board
 
 
   clickListener: (event)=>
-    pawn = @cellValueByReference(event.target)
-    if !@gameOver && [@cpuPawn, @playerPawn].indexOf(pawn) == -1
+    if !@gameOver && !@cellValueByReference(event.target)?
       @markCellByReference(event.target, @playerPawn)
+      @cpu.play() if !@gameEnded(@playerPawn)
 
-    # let the cell me marked first. so sleep
-    # KISS not using promises or anything here.
-    i for i in [1..2000]
-    @cpu.play() if !@gameEnded(@playerPawn)
       
 
   markCellByReference: ($cell, pawn)->
