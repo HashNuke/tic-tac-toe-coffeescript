@@ -14,7 +14,7 @@ class @TicTacToe.Cpu
       value = @board.cellValue(cell[0], cell[1])
       if value == pawn
         count = count + 1
-      else if value == false
+      else if !value?
         emptyCell = cell
     return emptyCell if count == 2
 
@@ -62,22 +62,20 @@ class @TicTacToe.Cpu
       [1, 1], [1, 3], [3, 1], [3, 3]
     ]
     for corner in corners
-      value = @board.cellValue(corner[0], corner[1])
-      if !value?
-        @board.markCell(row, col, @pawn)
+      if !@board.cellValue(corner[0], corner[1])?
+        @board.markCell(corner[0], corner[1], @pawn)
         return true
 
 
   tryCenter: ()->
-    value = @board.cellValue(2, 2)
-    if !value?
-      @board.markCell(row, col, @pawn)
+    if !@board.cellValue(2, 2)?
+      @board.markCell(2, 2, @pawn)
       return true
 
 
   pickFirstEmptyCell: ->
     for rowId in [1..3]
       for colId in [1..3]
-        if !@board.cellValue(rowId, colId)
+        if !@board.cellValue(rowId, colId)?
           @board.markCell(rowId, colId, @pawn)
           return true

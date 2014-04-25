@@ -12,7 +12,6 @@ class @TicTacToe.Board
     classList = $element.getAttribute("class").split(" ")
     return "x" if classList.indexOf("cell-x") != -1
     return "o" if classList.indexOf("cell-o") != -1
-    false
 
 
   cellValue: (row, column)->
