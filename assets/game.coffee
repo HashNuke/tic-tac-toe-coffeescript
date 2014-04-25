@@ -55,23 +55,27 @@ class @TicTacToe.Game
       false
 
 
+
   hasWon: (pawn)->
-    # check row matches
+    return true if @rowConquered(pawn) || @columnConquered(pawn) || @crossConquered(pawn)
+    false
+
+
+  crossConquered: (pawn)->
+    if @cellValue(1, 1) == @cellValue(2, 2) == @cellValue(3, 3) == pawn
+      return true
+
+    if @cellValue(3, 1) == @cellValue(2, 2) == @cellValue(1, 3) == pawn
+      return true
+
+
+  rowConquered: (pawn)->
     for rowId in [1..3]
       if @cellValue(rowId, 1) == @cellValue(rowId, 2) == @cellValue(rowId, 3) == pawn
         return true
 
-    # Cross
-    if @cellValue(1, 1) == @cellValue(2, 2) == @cellValue(3, 3) == pawn
-      return true
 
-    # Cross
-    if @cellValue(3, 1) == @cellValue(2, 2) == @cellValue(1, 3) == pawn
-      return true
-
-    # Check columns
+  columnConquered: (pawn)->
     for colId in [1..3]
       if @cellValue(1, colId) == @cellValue(2, colId) == @cellValue(3, colId) == pawn
         return true
-
-    false
