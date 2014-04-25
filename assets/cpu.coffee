@@ -3,20 +3,8 @@ class @TicTacToe.Cpu
     #Nothing here. Move on.
 
   play: ()->
-    played = @tryWinningMove()
-  
-    if !played
-      played = @tryBlockingPlayerMoves()
-
-    if !played
-      played = @tryCenter()
-
-    if !played
-      played = @tryCorners()
-
-    if !played
-      @pickFirstEmptyCell()
-
+    # Coffee doesnt allow conditions to span multiple lines
+    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCenter() || @tryCorners() || @pickFirstEmptyCell()
     @board.gameOver = true if @board.gameEnded(@pawn)
 
 

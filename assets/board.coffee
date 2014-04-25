@@ -39,6 +39,8 @@ class @TicTacToe.Board
         $cell.addEventListener "click", @clickListener
       @$parent.appendChild $row
 
+
+    # This stuff should ideally be elsewhere
     @cpu = new TicTacToe.Cpu(@cpuPawn, @)
     if @whoStartsFirst() == "cpu"
       document.getElementById("game-info").innerHTML = "CPU starts first"
