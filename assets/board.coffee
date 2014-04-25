@@ -1,4 +1,4 @@
-class @TicTacToe.Board
+class @TicTacToe.Game
   gameOver: false
   cpuPawn: "o"
   playerPawn: "x"
@@ -50,11 +50,8 @@ class @TicTacToe.Board
 
 
   clickListener: (event)=>
-    console.log @cellValueByReference(event.target)
-
     if !@gameOver && !@cellValueByReference(event.target)?
       @markCellByReference(event.target, @playerPawn)
-      console.log "marked", event.target
       @cpu.play() if !@gameEnded(@playerPawn)
 
       

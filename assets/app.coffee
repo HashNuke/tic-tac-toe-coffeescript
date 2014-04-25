@@ -19,12 +19,12 @@ class @TicTacToe.App
     @$board = document.createElement("div")
     @$board.id = "board"
     @$parent.appendChild @$board
-    @board = new TicTacToe.Board(@$board)
-    @board.build()
+    @game = new TicTacToe.Game(@$board)
+    @game.build()
 
     #start button
     $startBtn = document.createElement("button")
-    $startBtn.addEventListener "click", => @board.build()
+    $startBtn.addEventListener "click", => @game.build()
     $startBtn.textContent = "start/restart"
     @$notice.appendChild $startBtn
 
