@@ -5,6 +5,8 @@
   <script type="text/coffeescript" src="assets/app.coffee"></script>
   <script type="text/coffeescript" src="assets/board.coffee"></script>
   <script type="text/coffeescript" src="assets/cpu.coffee"></script>
+  <script type="text/coffeescript" src="assets/init.coffee"></script>
+
   <style type="text/css">
     #game { float: left; }
 
@@ -33,15 +35,6 @@
     .cell-x:before { content: "X"; }
     .cell-o:before { content: "O"; }
   </style>
-
-
-  <script type="text/javascript">
-    window.onload = function() {
-      var $parent = document.getElementById("game"),
-          app = new TicTacToe.App($parent);
-      app.start();
-    };
-  </script>
 
 </head>
 <body>
