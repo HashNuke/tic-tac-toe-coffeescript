@@ -1,0 +1,47 @@
+<!doctype html>
+<head>
+  <title>TicTacToe</title>
+  <script type="text/javascript" src="coffee-script.js"></script>
+  <script type="text/coffeescript" src="app.coffee"></script>
+  <style type="text/css">
+    #game { float: left; }
+
+    #board {
+      box-shadow: 0em 0em 0.2em 0.2em #CCC;
+      float: left;
+    }
+
+    button { float: right; }
+
+    .row {
+      clear: both;
+      float: left;
+    }
+
+    .cell {
+      float: left;
+      margin: 0.25em 0.25em;
+      background: #f1f1f1;
+      height: 0.9em;
+      width: 0.7em;
+      font-size: 3em;
+      padding: 0.2em;
+    }
+
+    .cell-x:before { content: "X"; }
+    .cell-o:before { content: "O"; }
+  </style>
+
+
+  <script type="text/javascript">
+    window.onload = function() {
+      var $parent = document.getElementById("game"),
+          app = new TicTacToe.App($parent);
+      app.start();
+    };
+  </script>
+
+</head>
+<body>
+  <div id="game"></div>
+</body>
