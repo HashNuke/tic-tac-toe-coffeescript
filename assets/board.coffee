@@ -25,6 +25,7 @@ class @TicTacToe.Board
 
 
   build: ()->
+    @gameOver = true
     @$parent.innerHTML = ""
     for i in [1..3]
       $row = document.createElement("div")
@@ -49,8 +50,11 @@ class @TicTacToe.Board
 
 
   clickListener: (event)=>
+    console.log @cellValueByReference(event.target)
+
     if !@gameOver && !@cellValueByReference(event.target)?
       @markCellByReference(event.target, @playerPawn)
+      console.log "marked", event.target
       @cpu.play() if !@gameEnded(@playerPawn)
 
       
