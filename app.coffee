@@ -247,6 +247,3 @@ class @TicTacToe.Cpu
           @board.markCell(rowId, colId, @pawn)
           return true
 
-
-# window.TicTacToe = @TicTacToe
-
