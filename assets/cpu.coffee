@@ -4,7 +4,7 @@ class @TicTacToe.Cpu
 
   play: ()->
     # Coffee doesnt allow conditions to span multiple lines
-    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryCenter() || @tryCorners() || @pickFirstEmptyCell()
+    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryCenter() || @tryEdges() || @tryCorners() || @pickFirstEmptyCell()
     @game.gameOver = true if @game.gameEnded(@pawn)
 
 
@@ -18,6 +18,18 @@ class @TicTacToe.Cpu
         emptyCell = cell
 
     return emptyCell if count == 2
+
+
+  pawnInCorner: (pawn)->
+    for cell in [[1, 1], [1, 3], [3, 1], [3, 3]]
+      if @game.cellValue(cell[0], cell[1]) == pawn
+        return cell
+
+
+  pawnInEdge: (pawn)->
+    for cell in [[1, 2], [2, 1], [2, 3], [3, 2]]
+      if @game.cellValue(cell[0], cell[1]) == pawn
+        return cell
 
 
   # whichever pawn is passed, it checks the next move to win
@@ -56,18 +68,6 @@ class @TicTacToe.Cpu
       return true
 
 
-  pawnInCorner: (pawn)->
-    for cell in [[1, 1], [1, 3], [3, 1], [3, 3]]
-      if @game.cellValue(cell[0], cell[1]) == pawn
-        return cell
-
-
-  pawnInEdge: (pawn)->
-    for cell in [[1, 2], [2, 1], [2, 3], [3, 2]]
-      if @game.cellValue(cell[0], cell[1]) == pawn
-        return cell
-
-
   tryCaddyCorners: ()->
     return false if @game.view.sumOfPlayerTiles(@game.playerPawn) != 2
     cornerPawn = @pawnInCorner(@game.playerPawn)
@@ -85,6 +85,26 @@ class @TicTacToe.Cpu
       else if !@game.cellValue(edgePawn[0] + 1, edgePawn[1])?
         @game.markCell edgePawn[0] + 1, edgePawn[1], @pawn
     true
+
+
+  tryEdges: ->
+    return false if @game.view.sumOfPlayerTiles(@game.playerPawn) != 2
+
+    # if two opposite corners are occupied, try the edges
+    topLeft = @game.cellValue(1, 1) == @game.playerPawn
+    topRight = @game.cellValue(1, 3) == @game.playerPawn
+    bottomLeft = @game.cellValue(3, 1) == @game.playerPawn
+    bottomRight = @game.cellValue(3, 3) == @game.playerPawn
+
+
+    if (topLeft && bottomRight) || (topRight && bottomLeft)
+      edges = [
+        [1, 2], [2, 1], [2, 3], [3, 2]
+      ]
+      for edge in edges
+        if !@game.cellValue(edge[0], edge[1])?
+          @game.markCell(edge[0], edge[1], @pawn)
+          return true
 
 
   tryCorners: ()->
