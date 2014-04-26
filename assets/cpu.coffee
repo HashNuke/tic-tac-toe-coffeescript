@@ -4,7 +4,7 @@ class @TicTacToe.Cpu
 
   play: ()->
     # Coffee doesnt allow conditions to span multiple lines
-    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryCenter() || @tryCorners() || @pickFirstEmptyCell()
+    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryCorners() || @tryCenter() || @pickFirstEmptyCell()
     @game.gameOver = true if @game.gameEnded(@pawn)
 
 
