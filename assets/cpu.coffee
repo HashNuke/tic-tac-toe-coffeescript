@@ -4,7 +4,7 @@ class @TicTacToe.Cpu
 
   play: ()->
     # Coffee doesnt allow conditions to span multiple lines
-    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCenter() || @tryCorners() || @pickFirstEmptyCell()
+    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryCenter() || @tryCorners() || @pickFirstEmptyCell()
     @game.gameOver = true if @game.gameEnded(@pawn)
 
 
@@ -16,6 +16,7 @@ class @TicTacToe.Cpu
         count = count + 1
       else if !value?
         emptyCell = cell
+
     return emptyCell if count == 2
 
 
@@ -24,20 +25,20 @@ class @TicTacToe.Cpu
     # Check rows
     for rowId in [1..3]
       emptyCell = @hasTwoPawns [[rowId, 1], [rowId, 2], [rowId, 3]], pawn
-      return emptyCell if emptyCell
+      return emptyCell if emptyCell?
 
     # Cross 1
     emptyCell = @hasTwoPawns [[1, 1], [2, 2], [3, 3]], pawn
-    return emptyCell if emptyCell
+    return emptyCell if emptyCell?
 
     # Cross 2
     emptyCell = @hasTwoPawns [[3, 1], [2, 2], [1, 3]], pawn
-    return emptyCell if emptyCell
+    return emptyCell if emptyCell?
 
     # Check columns
     for colId in [1..3]
       emptyCell = @hasTwoPawns [[1, colId], [2, colId], [3, colId]], pawn
-      return emptyCell if emptyCell
+      return emptyCell if emptyCell?
 
 
   tryWinningMove: ()->
@@ -53,6 +54,37 @@ class @TicTacToe.Cpu
     if cell
       @game.markCell(cell[0], cell[1], @pawn)
       return true
+
+
+  pawnInCorner: (pawn)->
+    for cell in [[1, 1], [1, 3], [3, 1], [3, 3]]
+      if @game.cellValue(cell[0], cell[1]) == pawn
+        return cell
+
+
+  pawnInEdge: (pawn)->
+    for cell in [[1, 2], [2, 1], [2, 3], [3, 2]]
+      if @game.cellValue(cell[0], cell[1]) == pawn
+        return cell
+
+
+  tryCaddyCorners: ()->
+    return false if @game.view.sumOfPlayerTiles(@game.playerPawn) != 2
+    cornerPawn = @pawnInCorner(@game.playerPawn)
+    edgePawn = @pawnInEdge(@game.playerPawn)
+    return false if !cornerPawn? || !edgePawn?
+
+    if [1, 3].indexOf(edgePawn[0]) != -1
+      if !@game.cellValue(edgePawn[0], edgePawn[1] - 1)?
+        @game.markCell edgePawn[0], edgePawn[1] - 1, @pawn
+      else if !@game.cellValue(edgePawn[0], edgePawn[1] + 1)?
+        @game.markCell edgePawn[0], edgePawn[1] + 1, @pawn
+    else
+      if !@game.cellValue(edgePawn[0] - 1, edgePawn[1])?
+        @game.markCell edgePawn[0] - 1, edgePawn[1], @pawn
+      else if !@game.cellValue(edgePawn[0] + 1, edgePawn[1])?
+        @game.markCell edgePawn[0] + 1, edgePawn[1], @pawn
+    true
 
 
   tryCorners: ()->

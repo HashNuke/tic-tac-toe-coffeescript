@@ -38,9 +38,13 @@ class @TicTacToe.View
     @markCellByReference $cell, pawn
 
 
+  sumOfPlayerTiles: (pawn)->
+    document.getElementsByClassName("cell-#{pawn}").length
+
+
   sumOfUsedTiles: (pawn1, pawn2)->
-    pawn1Tiles = document.getElementsByClassName("cell-#{pawn1}").length
-    pawn2Tiles = document.getElementsByClassName("cell-#{pawn2}").length
+    pawn1Tiles = @sumOfPlayerTiles(pawn1)
+    pawn2Tiles = @sumOfPlayerTiles(pawn2)
     pawn1Tiles + pawn2Tiles
 
 
