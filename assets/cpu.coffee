@@ -4,7 +4,11 @@ class @TicTacToe.Cpu
 
   play: ()->
     # Coffee doesnt allow conditions to span multiple lines
-    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryCenter() || @tryEdges() || @tryCorners() || @pickFirstEmptyCell()
+
+    # TODO tryCaddyCorners() and tryAdjacentEdges() can be one function
+    # They all actually come under tryBlockingPlayerMoves()
+
+    @tryWinningMove() || @tryBlockingPlayerMoves() || @tryCaddyCorners() || @tryAdjacentEdges() || @tryCenter() || @tryEdges() || @tryCorners() || @pickFirstEmptyCell()
     @game.gameOver = true if @game.gameEnded(@pawn)
 
 
@@ -85,6 +89,22 @@ class @TicTacToe.Cpu
       else if !@game.cellValue(edgePawn[0] + 1, edgePawn[1])?
         @game.markCell edgePawn[0] + 1, edgePawn[1], @pawn
     true
+
+
+  tryAdjacentEdges: ->
+    return false if @game.view.sumOfPlayerTiles(@game.playerPawn) != 2
+    leftEdge = @game.cellValue(2, 1)
+    rightEdge = @game.cellValue(2, 3)
+    topEdge = @game.cellValue(1, 2)
+    bottomEdge = @game.cellValue(3, 2)
+
+    if topEdge? && (leftEdge? || rightEdge?)
+      @game.markCell 1, 3, @pawn
+      true
+
+    if bottomEdge? && (leftEdge? || rightEdge?)
+      @game.markCell 3, 3, @pawn
+      true
 
 
   tryEdges: ->
